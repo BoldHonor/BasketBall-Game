@@ -14,8 +14,8 @@ public class BasketBall : MonoBehaviour
     void Start()
     {
         c = GetComponent<CharacterController>();
-        velocity = new Vector3(0, 12, 7);
-        launched = true;
+        // velocity = new Vector3(0, 12, 3);
+        // launched = true;
     }
 
     void Update()
@@ -24,14 +24,16 @@ public class BasketBall : MonoBehaviour
         velocity += gravity * Time.deltaTime;
         c.Move(velocity * Time.deltaTime);
 
-        if (transform.position.y < -5)
+        if (transform.position.y < -1)
         {
             Destroy(gameObject);
+            PlayerManager.Instance.spawnBall();
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("TriggerEnter");
-
+        Debug.Log("Basket");
+        PlayerManager.Instance.score += 1;
+        PlayerManager.Instance.UpdateScore();
     }
 }
