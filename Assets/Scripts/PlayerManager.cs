@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour
 
 
 
-    private Vector3 maxVelocity = new Vector3(3f, 16f, 3.4f);
+    private Vector3 maxVelocity = new Vector3(3f, 15f, 3.4f);
     private Vector3 minVelocity = new Vector3(0f, 8f, 2.6f);
 
     private Vector2 _fingerDown;
