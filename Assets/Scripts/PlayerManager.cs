@@ -8,17 +8,19 @@ using UnityEngine.Events;
 
 public class PlayerManager : MonoBehaviour
 {
+    private static int TopScore = 0;
     public static PlayerManager Instance;
     public int score = 0;
     [SerializeField] private Text ScoreCard;
     [SerializeField] private Text TimeCard;
+    [SerializeField] private Text TopScoreCard;
     [SerializeField] GameObject basketBallPrefab;
 
     BasketBall currentBasketBall;
 
 
 
-    private Vector3 maxVelocity = new Vector3(3f, 15f, 3.4f);
+    private Vector3 maxVelocity = new Vector3(3f, 16f, 3.4f);
     private Vector3 minVelocity = new Vector3(0f, 8f, 2.6f);
 
     private Vector2 _fingerDown;
@@ -61,7 +63,7 @@ public class PlayerManager : MonoBehaviour
         TimeElapsed += Time.deltaTime;
         if (TimeElapsed > TimePerLevel)
         {
-            Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+            StartCoroutine(ShowScore());
         }
         TimeCard.text = "Time :" + (Mathf.Ceil(TimePerLevel - TimeElapsed)).ToString();
 
@@ -99,5 +101,15 @@ public class PlayerManager : MonoBehaviour
         currentBasketBall.velocity.y = (maxVelocity.y - minVelocity.y) * y + minVelocity.y;
         currentBasketBall.velocity.z = (maxVelocity.z - minVelocity.z) * power + minVelocity.z;
         currentBasketBall.launched = true;
+    }
+
+    IEnumerator ShowScore()
+    {
+        TopScoreCard.gameObject.SetActive(true);
+        TopScore = score > TopScore ? score : TopScore;
+        TopScoreCard.text = "TOP SCORE : " + TopScore.ToString();
+        yield return new WaitForSeconds(3);
+        TopScoreCard.gameObject.SetActive(false);
+        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
 }
